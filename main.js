@@ -4,7 +4,7 @@ let ctx;
 canvas = document.createElement("canvas");
 ctx = canvas.getContext("2d");
 canvas.width = 400;
-canvas.height=700;
+canvas.height= 600;
 document.body.appendChild(canvas);
 
 let backgroundImage,spaceshipImage,bulletImage,enemyImage,gameOverImage;
@@ -35,7 +35,7 @@ function Bullet(){
     // 총알.x >= 적군.x And 총알.x <= 적군.x + 적군의 넓이
         
         for(let i=0; i<enemyList.length; i++){
-            if(this.y <= enemyList[i].y && this.x >= enemyList[i].x && this.x<=enemyList[i].x+ 40 ){
+            if(this.y <= enemyList[i].y && this.x >= enemyList[i].x && this.x<=enemyList[i].x+ 32 ){
                // 총알이 사라지고 우주선이 사라짐, 점수 획득
                 score++;
                 this.alive = false // 죽은 총알
@@ -60,7 +60,7 @@ function Enemy(){
         enemyList.push(this);
     };
     this.update = function(){
-        this.y += 5;        // 적군의 속도 조절
+        this.y += 2;        // 적군의 속도 조절
 
         if(this.y >= canvas.height-64){
             gameOver = true;
@@ -74,13 +74,13 @@ function loadImage(){
     backgroundImage.src="images/background.jpg";
 
     spaceshipImage = new Image();
-    spaceshipImage.src="images/SpaceShip.png";
+    spaceshipImage.src="images/SpaceShip.png";      //64x64
 
     bulletImage = new Image();
-    bulletImage.src="images/bullet.png";
+    bulletImage.src="images/bullet.png";            //64x64
 
     enemyImage = new Image();
-    enemyImage.src="images/ufo.png";
+    enemyImage.src="images/ufo.png";                //64x64
 
     gameOverImage = new Image();
     gameOverImage.src="images/over.png";
@@ -117,16 +117,16 @@ function createEnemy(){
 }
 
 function update(){
-    if( 39 in keysDown){     // ->버튼 눌릴시
+    if( 39 in keysDown){     // ->버튼 눌릴시 우주선 오른쪽으로 이동
         spaceshipX += 5;
     } 
-    if( 37 in keysDown){     // <-버튼 눌릴시
+    if( 37 in keysDown){     // <-버튼 눌릴시 우주선 왼쪽으로 이동
         spaceshipX -= 5;
     }
     if(spaceshipX <=0){
         spaceshipX =0;
     }
-    if(spaceshipX >= canvas.width-64){
+    if(spaceshipX >= canvas.width-64){      // 우주선이 캔버스를 background를 넘어갈수 없음
         spaceshipX = canvas.width - 64;
     }
 
