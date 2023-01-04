@@ -20,8 +20,8 @@ function Bullet(){
     this.x=0;
     this.y=0;
     this.init = function(){
-        this.x = spaceshipX;
-        this.y = spaceshipY;
+        this.x = spaceshipX
+        this.y = spaceshipY
 
         this.alive = true // true면 살아있는 총알 false면 죽은 총알
         bulletList.push(this);
@@ -35,7 +35,7 @@ function Bullet(){
     // 총알.x >= 적군.x And 총알.x <= 적군.x + 적군의 넓이
         
         for(let i=0; i<enemyList.length; i++){
-            if(this.y <= enemyList[i].y && this.x >= enemyList[i].x && this.x<=enemyList[i].x+ 32 ){
+            if(this.y <= enemyList[i].y && this.x >= enemyList[i].x-32 && this.x<=enemyList[i].x +64){
                // 총알이 사라지고 우주선이 사라짐, 점수 획득
                 score++;
                 this.alive = false // 죽은 총알
@@ -60,7 +60,7 @@ function Enemy(){
         enemyList.push(this);
     };
     this.update = function(){
-        this.y += 2;        // 적군의 속도 조절
+        this.y += 1;        // 적군의 속도 조절
 
         if(this.y >= canvas.height-64){
             gameOver = true;
@@ -126,14 +126,17 @@ function update(){
     if(spaceshipX <=0){
         spaceshipX =0;
     }
-    if(spaceshipX >= canvas.width-64){      // 우주선이 캔버스를 background를 넘어갈수 없음
+    if(spaceshipX >= canvas.width - 64){      // 우주선이 캔버스를 background를 넘어갈수 없음
         spaceshipX = canvas.width - 64;
     }
 
     // 총알의 y좌표 업데이트 함수 호출
     for(let i=0; i<bulletList.length; i++){
-        bulletList[i].update();
-        bulletList[i].checkHit();
+        if(bulletList[i].alive){
+            bulletList[i].update();
+            bulletList[i].checkHit();
+        }
+       
     }
 
     for(let i= 0 ; i<enemyList.length; i++){
@@ -141,6 +144,7 @@ function update(){
     }
 }
 
+// 그리기 함수
 function render(){
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
     ctx.drawImage(spaceshipImage, spaceshipX, spaceshipY );
@@ -165,7 +169,7 @@ function main(){
         render();       //그리는 기능
         requestAnimationFrame(main);
     }else{
-        ctx.drawImage(gameOverImage, 10, 100, 300, 300)
+        ctx.drawImage(gameOverImage, 50, 100, 300, 300)
     }
    
 }
